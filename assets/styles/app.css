@@ -2,7 +2,7 @@
 @import "_navbar.css";
 @import "_variable.css";
 .toto {
-   color: red;
+   color: black;
    text-align: center;
    margin-top: 2rem;
 }
