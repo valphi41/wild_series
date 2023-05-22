@@ -1,0 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+:root{
+    --bs-primary: #0D1821;
+    --bs-secondary: #344966;
+    --bs-font-sans-serif: Josefin Sans;
+}
