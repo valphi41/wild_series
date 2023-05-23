@@ -18,7 +18,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         [
             'title' => 'Naruto',
             'synopsis' => 'Un jeune ninja en quête de reconnaissance',
-            'category' => 'category_Animation'
+            'category' => 'category_Action'
         ],
         [
             'title' => 'Breaking Bad',
@@ -28,12 +28,12 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
         [
             'title' => 'Rings Of Power',
             'synopsis' => 'Une elfe veut venger son peuple',
-            'category' => 'category_Fantastique'
+            'category' => 'category_Action'
         ],
         [
             'title' => 'The Last Of Us',
             'synopsis' => 'Un voyage dans un monde apocalyptique',
-            'category' => 'category_Aventure'
+            'category' => 'category_Action'
         ]
     ];
     public function load(ObjectManager $manager)
