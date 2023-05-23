@@ -2,6 +2,7 @@
 // src/Controller/ProgramController.php
 namespace App\Controller;
 
+use App\Repository\SeasonRepository;
 use App\Repository\ProgramRepository;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,6 +31,22 @@ class ProgramController extends AbstractController
         }
         return $this->render('program/show.html.twig',
         ['program' => $program,
+        ]);
+    }
+
+    #[Route("/program/{programId}/season/{seasonId}", name: 'program_season_show')]
+    public function showSeason(int $programId, int $seasonId, ProgramRepository $programRepository, SeasonRepository $seasonRepository): Response
+    {
+        $program = $programRepository->findOneBy(['id'=>$programId]);
+        $season = $seasonRepository->find($seasonId);
+
+        if (!$program || !$season) {
+            throw $this->createNotFoundException('Program or Season not found');
+        }
+
+        return $this->render('program/season_show.html.twig', [
+            'program' => $program,
+            'season' => $season
         ]);
     }
 }
