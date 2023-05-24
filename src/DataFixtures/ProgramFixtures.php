@@ -15,7 +15,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Des zombies envahissent la terre',
             'category' => 'category_Horreur',
             'country' => 'USA',
-            'reference' => 'program_WalkingDead'
+            'reference' => 'program_1'
 
         ],
         [
@@ -23,7 +23,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Un jeune ninja en quête de reconnaissance',
             'category' => 'category_Action'
             ,'country' => 'Japan',
-            'reference' => 'program_Naruto'
+            'reference' => 'program_2'
 
         ],
         [
@@ -31,7 +31,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Un professeur devient dealer',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_Breaking Bad'
+            'reference' => 'program_3'
 
         ],
         [
@@ -39,14 +39,14 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Une elfe veut venger son peuple',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_Rings Of Power'
+            'reference' => 'program_4'
         ],
         [
             'title' => 'The Last Of Us',
             'synopsis' => 'Un voyage dans un monde apocalyptique',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_The Last Of Us'
+            'reference' => 'program_5'
         ]
     ];
     public function load(ObjectManager $manager)
