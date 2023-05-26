@@ -23,28 +23,6 @@ class CategoryController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'new')]
-    public function new(Request $request, CategoryRepository $categoryRepository): Response
-    {
-        $category = new Category();
-
-        // Create the form, linked with $category
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $categoryRepository->save($category, true);
-
-            return $this->redirectToRoute('category_index');
-        }
-
-        // Render the form
-
-        return $this->render('category/new.html.twig', [
-            'form' => $form,
-        ]);
-    }
-
 
     #[Route('/{categoryName}', name: 'show')]
     public function show(string $categoryName, CategoryRepository $categoryRepository, ProgramRepository $programRepository): Response

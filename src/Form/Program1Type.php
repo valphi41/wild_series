@@ -2,9 +2,7 @@
 
 namespace App\Form;
 
-use App\Entity\Episode;
-use App\Entity\Season;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\Program;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -12,30 +10,24 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class EpisodeType extends AbstractType
+class Program1Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
             ->add('title', TextType::class)
-            ->add('number', IntegerType::class)
             ->add('synopsis', TextareaType::class)
-            ->add('season', EntityType::class, [
-                'class' => Season::class,
-                'choice_label' => function(Season $season) {
-                    return $season->getProgram()->getTitle() . ' - saison numéro : ' . $season->getNumber();
-                },
-                'group_by' => function(Season $season) {
-                    return $season->getProgram()->getTitle();
-                }
-            ])
-        ;
+            ->add('poster', TextType::class)
+            ->add('country', TextType::class)
+            ->add('year', IntegerType::class)
+            ->add('category', null, ['choice_label' => 'name']);
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Episode::class,
+            'data_class' => Program::class,
         ]);
     }
 }

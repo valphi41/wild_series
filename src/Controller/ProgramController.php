@@ -26,28 +26,7 @@ class ProgramController extends AbstractController
             'programs' => $programs,
          ]);
     }
-    #[Route('/new', name: 'new')]
-    public function new(Request $request, ProgramRepository $programRepository): Response
-    {
-        $program = new Program();
 
-        // Create the form, linked with $category
-        $form = $this->createForm(ProgramType::class, $program);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid())
-        {
-            $programRepository->save($program, true);
-
-            return $this->redirectToRoute('program_index');
-        }
-
-        // Render the form
-
-        return $this->render('program/new.html.twig', [
-            'form' => $form,
-        ]);
-    }
     #[Route('/show/{id<^[0-9]+$>}', name: 'show')]
     public function show(Program $program): Response
     {
