@@ -6,9 +6,13 @@ use App\Repository\ProgramRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProgramRepository::class)]
+#[UniqueEntity('title', message: 'Ce titre : {{ value }} existe déja.')]
+
 class Program
 {
     #[ORM\Id]
@@ -16,10 +20,17 @@ class Program
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(name: 'title', type: 'string', length: 255, unique: true)]
+    #[Assert\NotBlank(message: 'Le champs title ne doit pas être vide !')]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Le programme saisi {{ value }} est trop longue et ne doit pas dépasser {{ limit }} caractères.'
+    )]
+    #[Assert\Regex(pattern: '/plus belle la vie/', message: 'On parle de vraie série !', match: false)]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'Le champs synopsis ne doit pas être vide !')]
     private ?string $synopsis = null;
 
     #[ORM\Column(length: 255, nullable: true)]

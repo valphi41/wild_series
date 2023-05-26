@@ -28,7 +28,7 @@ class Season
     #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
-    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class)]
+    #[ORM\OneToMany(mappedBy: 'season', targetEntity: Episode::class, cascade: ['remove'])]
     private Collection $episodes;
 
     public function __construct()

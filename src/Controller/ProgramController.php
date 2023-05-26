@@ -15,9 +15,10 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 
+#[Route('/program', name: 'program_')]
 class ProgramController extends AbstractController
 {
-    #[Route('/program/', name: 'program_index')]
+    #[Route('/', name: 'index')]
     public function index(ProgramRepository $programRepository): Response
     {
         $programs = $programRepository->findall();
@@ -25,7 +26,7 @@ class ProgramController extends AbstractController
             'programs' => $programs,
          ]);
     }
-    #[Route('/program/new', name: 'new')]
+    #[Route('/new', name: 'new')]
     public function new(Request $request, ProgramRepository $programRepository): Response
     {
         $program = new Program();
@@ -34,7 +35,7 @@ class ProgramController extends AbstractController
         $form = $this->createForm(ProgramType::class, $program);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted())
+        if ($form->isSubmitted() && $form->isValid())
         {
             $programRepository->save($program, true);
 
@@ -47,7 +48,7 @@ class ProgramController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('program/show/{id<^[0-9]+$>}', name: 'program_show')]
+    #[Route('/show/{id<^[0-9]+$>}', name: 'show')]
     public function show(Program $program): Response
     {
         if (!$program){
@@ -60,7 +61,7 @@ class ProgramController extends AbstractController
         ]);
     }
 
-    #[Route("/program/{program}/season/{season}", name: 'program_season_show')]
+    #[Route("/{program}/season/{season}", name: 'season_show')]
     public function showSeason(Program $program, Season $season): Response
     {
 
@@ -73,7 +74,7 @@ class ProgramController extends AbstractController
             'season' => $season
         ]);
     }
-    #[Route('/program/{program}/season/{season}/episode/{episode}', name: 'program_episode_show')]
+    #[Route('/{program}/season/{season}/episode/{episode}', name: 'episode_show')]
     public function showEpisode(Program $program,Season $season, Episode $episode): Response
     {
         return $this->render('program/episode_show.html.twig', [
