@@ -7,6 +7,7 @@ use App\Form\Program1Type;
 use App\Repository\ProgramRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -14,22 +15,32 @@ use Symfony\Component\Routing\Annotation\Route;
 class AdminProgramController extends AbstractController
 {
     #[Route('/', name: 'app_admin_program_index', methods: ['GET'])]
-    public function index(ProgramRepository $programRepository): Response
+    public function index(ProgramRepository $programRepository, RequestStack $requestStack): Response
     {
-        return $this->render('admin_program/index.html.twig', [
+        $session = $requestStack->getSession();
+        if (!$session->has('total')) {
+            $session->set('total', 0);
+        }
+        $total = $session->get('total');
+
+            return $this->render('admin_program/index.html.twig', [
             'programs' => $programRepository->findAll(),
+                'total' => $total
         ]);
     }
 
     #[Route('/new', name: 'app_admin_program_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProgramRepository $programRepository): Response
     {
+
         $program = new Program();
         $form = $this->createForm(Program1Type::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
+
+            $this->addFlash('success', 'Un nouveau programme a été crée !');
 
             return $this->redirectToRoute('app_admin_program_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -57,6 +68,8 @@ class AdminProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $programRepository->save($program, true);
 
+            $this->addFlash('success', 'Votre programme à bien été édité !');
+
             return $this->redirectToRoute('app_admin_program_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -71,6 +84,8 @@ class AdminProgramController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$program->getId(), $request->request->get('_token'))) {
             $programRepository->remove($program, true);
+
+            $this->addFlash('danger', 'Votre programme a bien été supprimé ! ');
         }
 
         return $this->redirectToRoute('app_admin_program_index', [], Response::HTTP_SEE_OTHER);
