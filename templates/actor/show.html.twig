@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+{{ actor.name }}
+{% endblock %}
+{% block body %}
+            <h2>Page de : {{ actor.name }}</h2>
+        <ul>
+            <h3>Jouant dans les séries : </h3>
+        {% for programs in actor.programs %}
+            <li>{{ programs.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+
