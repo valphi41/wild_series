@@ -29,6 +29,7 @@ class EpisodeType extends AbstractType
                     return $season->getProgram()->getTitle();
                 }
             ])
+            ->add('duration', IntegerType::class)
         ;
     }
 

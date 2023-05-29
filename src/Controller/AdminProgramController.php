@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/admin/program')]
 class AdminProgramController extends AbstractController
@@ -30,14 +31,15 @@ class AdminProgramController extends AbstractController
     }
 
     #[Route('/new', name: 'app_admin_program_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ProgramRepository $programRepository): Response
+    public function new(Request $request, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
-
         $program = new Program();
         $form = $this->createForm(Program1Type::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $programRepository->save($program, true);
 
             $this->addFlash('success', 'Un nouveau programme a été crée !');
@@ -51,7 +53,7 @@ class AdminProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_program_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_admin_program_show', methods: ['GET'])]
     public function show(Program $program): Response
     {
         return $this->render('admin_program/show.html.twig', [
@@ -59,13 +61,15 @@ class AdminProgramController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_program_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Program $program, ProgramRepository $programRepository): Response
+    #[Route('/{slug}/edit', name: 'app_admin_program_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Program $program, ProgramRepository $programRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(Program1Type::class, $program);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $slug = $slugger->slug($program->getTitle());
+            $program->setSlug($slug);
             $programRepository->save($program, true);
 
             $this->addFlash('success', 'Votre programme à bien été édité !');
