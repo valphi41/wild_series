@@ -1,0 +1,12 @@
+{% extends 'baseEmail.html.twig' %}
+    {% block title %}Nouvel épisode !
+    {% endblock %}
+
+{% block body %}
+    <h2>Un nouvel épisode pour {{ episode.season.program.title }}</h2>
+    <p>Bonjour, l'épisode {{ episode.number }} : "{{ episode.title }}" de la série "{{ episode.season.program.title }}" est arrivé sur Wild Séries !</p>
+    <p>Vous trouverez plus de détails en cliquant <a href="{{ url('program_episode_show',
+            {'program_slug': episode.season.program.slug,
+                'season_id': episode.season.id,
+                'episode_slug': episode.slug}) }}">ici !</a></p>
+{% endblock %}
