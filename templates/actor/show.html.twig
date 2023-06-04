@@ -4,7 +4,9 @@
 {% endblock %}
 {% block body %}
             <h2>Page de : {{ actor.name }}</h2>
-        <ul>
+    <img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}">
+
+    <ul>
             <h3>Jouant dans les séries : </h3>
         {% for programs in actor.programs %}
             <li>{{ programs.title }}</li>
