@@ -7,6 +7,19 @@
     <h2>Saison numéro {{ season.number }}</h2>
     <h3>{{ episode.number }} {{ episode.title }}</h3>
     <p>{{ episode.synopsis }}</p>
+
+    {% for comments in episode.comments %}
+        <h4>{{ comments.author.email }}</h4>
+        <p>Avis :</p>
+        <p>{{ comments.comment }}</p>
+        <p>Note sur 10 : </p>
+        <p>{{ comments.rate }}/10</p>
+    {% endfor %}
+
+    {% if app.user %}
+    <p href="{{ path('comment_new') }}"> Ajout d'un commentaire </p>
+    {% include 'comment/_form.html.twig' %}
+    {% endif %}
 {% endblock %}
 
 

@@ -4,13 +4,17 @@ namespace App\Controller;
 
 
 
+use App\Entity\Comment;
 use App\Entity\Episode;
 use App\Entity\Program;
 use App\Entity\Season;
+use App\Form\CommentType;
+use App\Repository\CommentRepository;
 use App\Repository\ProgramRepository;
 use App\Service\ProgramDuration;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -60,11 +64,25 @@ class ProgramController extends AbstractController
     #[Entity('program', options: ['mapping'=>['program_slug'=>'slug']])]
     #[Entity('season', options: ['mapping'=>['season_id'=>'id']])]
     #[Entity('episode', options: ['mapping'=>['episode_slug'=>'slug']])]
-    public function showEpisode(Program $program,Season $season, Episode $episode): Response
+    public function showEpisode(Program $program,Season $season, Episode $episode, Request $request, CommentRepository $commentRepository): Response
     {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $comment->setAuthor($this->getUser());
+            $comment->setEpisode($episode);
+            $commentRepository->save($comment, true);
+
+            $this->addFlash('success', 'Votre commentaire à bien été posté !');
+
+
+        }
         return $this->render('program/episode_show.html.twig', [
             'program' => $program,
             'season' => $season,
-            'episode' => $episode]);
+            'episode' => $episode,
+            'form' => $form]);
     }
 }

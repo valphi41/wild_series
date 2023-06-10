@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block title %}
-{{ actor.name }}
+    {{ actor.name }}
 {% endblock %}
 {% block body %}
-            <h2>Page de : {{ actor.name }}</h2>
+    <h2>Page de : {{ actor.name }}</h2>
     <img src="{{ vich_uploader_asset(actor) }}" alt="{{ actor.name }}">
 
     <ul>
-            <h3>Jouant dans les séries : </h3>
+        <h3>Jouant dans les séries : </h3>
         {% for programs in actor.programs %}
             <li>{{ programs.title }}</li>
         {% endfor %}
