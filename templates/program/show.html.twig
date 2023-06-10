@@ -7,6 +7,9 @@
         <img class="align-self-start mr-3" src="{{program.poster}}" alt="{{ program.title }} poster">
         <div class="media-body">
             <h1 class="mt-0">{{ program.title }}</h1>
+            {% if is_granted("ROLE_ADMIN") %}
+                <a href="{{ path('app_admin_program_edit', { 'slug': program.slug} ) }}">Éditer</a>
+            {%endif%}
             <img src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
             <p>{{ program.synopsis }}</p>
             <p>Catégorie : {{ program.category.name }}</p>.

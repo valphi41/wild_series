@@ -14,10 +14,11 @@
         <p>{{ comments.comment }}</p>
         <p>Note sur 10 : </p>
         <p>{{ comments.rate }}/10</p>
+        {{ include('comment/_delete.form.html.twig') }}
     {% endfor %}
 
     {% if app.user %}
-    <p href="{{ path('comment_new') }}"> Ajout d'un commentaire </p>
+    <p> Ajout d'un commentaire </p>
     {% include 'comment/_form.html.twig' %}
     {% endif %}
 {% endblock %}

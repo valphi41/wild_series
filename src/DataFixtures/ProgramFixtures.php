@@ -20,7 +20,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Des zombies envahissent la terre',
             'category' => 'category_Horreur',
             'country' => 'USA',
-            'reference' => 'program_1'
+            'reference' => 'program_1',
+            'owner' => 'contributor'
 
         ],
         [
@@ -28,7 +29,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Un jeune ninja en quête de reconnaissance',
             'category' => 'category_Action'
             ,'country' => 'Japan',
-            'reference' => 'program_2'
+            'reference' => 'program_2',
+            'owner' => 'contributor'
 
         ],
         [
@@ -36,7 +38,8 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Un professeur devient dealer',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_3'
+            'reference' => 'program_3',
+            'owner' => 'admin'
 
         ],
         [
@@ -44,14 +47,16 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             'synopsis' => 'Une elfe veut venger son peuple',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_4'
+            'reference' => 'program_4',
+            'owner' => 'contributor'
         ],
         [
             'title' => 'The Last Of Us',
             'synopsis' => 'Un voyage dans un monde apocalyptique',
             'category' => 'category_Action',
             'country' => 'USA',
-            'reference' => 'program_5'
+            'reference' => 'program_5',
+            'owner' => 'admin'
         ]
     ];
     public function load(ObjectManager $manager)
@@ -63,6 +68,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
             $program->setSynopsis($programData['synopsis']);
             $program->setCategory($this->getReference($programData['category']));
             $program->setCountry($programData['country']);
+            $program->setOwner($this->getReference($programData['owner']));
             $this->addReference($programData['reference'], $program);
             $program->setYear(2007);
             $slug = $this->slugger->slug($program->getTitle());
@@ -76,6 +82,7 @@ class ProgramFixtures extends Fixture implements DependentFixtureInterface
     {
         return [
             CategoryFixtures::class,
+            UserFixtures::class
         ];
     }
 

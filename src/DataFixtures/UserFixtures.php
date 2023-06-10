@@ -24,7 +24,8 @@ class UserFixtures extends Fixture
            'contributorpassword'
        );
        $contributor->setPassword($hashedPassword);
-       $manager->persist($contributor);
+        $this->addReference('contributor', $contributor);
+        $manager->persist($contributor);
 
        $admin = new User();
        $admin->setEmail('admin@monsite.com');
@@ -33,7 +34,8 @@ class UserFixtures extends Fixture
            $admin,
        'adminpassword');
        $admin->setPassword($hashedPassword);
-       $manager->persist($admin);
+        $this->addReference('admin', $admin);
+        $manager->persist($admin);
 
        $manager->flush();
 

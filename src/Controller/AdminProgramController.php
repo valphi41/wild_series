@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Program;
 use App\Form\Program1Type;
 use App\Repository\ProgramRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -42,6 +43,7 @@ class AdminProgramController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
             $program->setSlug($slug);
+            $program->setOwner($this->getUser());
             $programRepository->save($program, true);
 
             $this->addFlash('success', 'Un nouveau programme a été crée !');
@@ -76,6 +78,11 @@ class AdminProgramController extends AbstractController
     {
         $form = $this->createForm(Program1Type::class, $program);
         $form->handleRequest($request);
+
+        if ($this->getUser() !== $program->getOwner()  && !$this->isGranted('ROLE_ADMIN')){
+
+            throw $this->createAccessDeniedException('Seul le créateur du programme peut editer');
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $slug = $slugger->slug($program->getTitle());
