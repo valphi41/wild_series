@@ -25,7 +25,6 @@ class ActorController extends AbstractController
     public function show(Actor $actor): Response
     {
 
-
         return $this->render('actor/show.html.twig', [
             'actor' => $actor
         ]);

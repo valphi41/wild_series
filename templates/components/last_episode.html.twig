@@ -1,0 +1,14 @@
+<div{{ attributes }}>
+    <h2 class="d-flex flex-row justify-content-center pt-5 pb-5">Liste de nos derniers épisodes</h2>
+    <aside class="d-flex flex-row justify-content-around">
+    {% for episode in this.episodes %}
+    <div class="card" style="width: 18rem;">
+        <div class="card-body">
+            <h5 class="card-title">{{ episode.title }}</h5>
+            <h6 class="card-subtitle mb-2 text-body-secondary">{{ episode.season.program.title }}</h6>
+            <p class="card-text">{{ episode.synopsis }}</p>
+        </div>
+    </div>
+        {% endfor %}
+    </aside>
+</div>

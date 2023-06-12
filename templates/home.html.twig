@@ -3,22 +3,30 @@
 {% block title %}Wild Series{% endblock %}
 
 {% block body %}
-<h1 class="toto">Bienvenue sur Wild Series</h1>
+    <h1>Bienvenue sur Wild Series !</h1>
+    <h2 {{ stimulus_controller('symfony/ux-typed', {
+        strings:[
+            'Le meilleur site pour suivre tes séries préférées',
+            'Découvre les dernières actus sur les séries du moment',
+            'N\'hesite pas à t\'inscrire pour acceder à tout le contenu'],
+        loop: true,
+        showCursor: true,
+        cursorChar: '✨', }) }}></h2>
 
     <div class="d-flex flex-row justify-content-around">
-    {% for program in programs %}
-    <div class="card media h-100 d-flex flex-column" style="width: 18rem;">
-        {% if program.poster %}
-            <img class="card-img-top" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
-        {% else %}
-        <img src="{{ asset('build/images/images.jpg') }}" class="card-img-top" alt="...">
-            {% endif %}
-        <div class="card-body">
-            <h5 class="card-title">{{ program.title }}</h5>
-            <p class="card-text">{{ program.synopsis}}</p>
-            <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">En voir +</a>
-        </div>
-    </div>
-    {% endfor %}
+        {% for program in programs %}
+            <div class="card media h-100 d-flex flex-column" style="width: 18rem;">
+                {% if program.poster %}
+                    <img class="card-img-top" src="{{ vich_uploader_asset(program) }}" alt="{{ program.title }}">
+                {% else %}
+                    <img src="{{ asset('build/images/images.jpg') }}" class="card-img-top" alt="...">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ program.title }}</h5>
+                    <p class="card-text">{{ program.synopsis }}</p>
+                    <a href="{{ path("program_show", { slug: program.slug }) }}" class="btn btn-primary">En voir +</a>
+                </div>
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
