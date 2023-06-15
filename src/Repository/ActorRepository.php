@@ -38,7 +38,16 @@ class ActorRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
+    public function findLikeActor(string $name)
+    {
+        $queryBuilder = $this->createQueryBuilder('a')
+            ->where('a.name LIKE :name')
+            ->setParameter('name', '%' . $name . '%')
+            ->orderBy('a.name', 'ASC')
+            ->getQuery();
 
+        return $queryBuilder->getResult();
+   }
 //    /**
 //     * @return Actor[] Returns an array of Actor objects
 //     */
